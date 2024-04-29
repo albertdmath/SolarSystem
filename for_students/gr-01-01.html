@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../libs/CS559/style559.css" />
+  </head>
+
+  <body>
+    <div id="div1"></div>
+<script type="importmap">
+      {
+          "imports": {
+              "three": "../libs/CS559-Three/build/three.module.js"
+          }
+      }
+  </script>
+    <script src="gr-01-01.js" type="module"></script>
+<!-- The screenshot and record buttons -->
+    <br><button onclick="screenshot('canvas')">Screenshot</button> <button
+        onclick="record('canvas','time')">Record</button> <input id="time" type="text" size="2" value="10"> seconds.
+    <script type="module">
+        import { screenshot, record } from "../libs/CS559/saveCanvas.js";
+        window.screenshot = screenshot;
+        window.record = record;
+    </script>
+  </body>
+</html>
+

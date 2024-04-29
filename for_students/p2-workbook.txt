@@ -1,0 +1,55 @@
+Wisc ID: 
+GitHub ID: 
+
+[ ] correct P2 Canvas Assignment submission [none]: 
+[ ] clear explanations in p2-workbook.txt [none]: 
+[ ] correct P2G Canvas Assignment submission on time [none]: 
+[ ] program runs (or seems to run correctly - worth looking at error console) [final-grtown]: 
+[ ] frame rate seems OK (not too slow) [final-grtown]: 
+[ ] UI is there and seems to work (can lookat and ride) [final-grtown]: 
+[ ] highlight list looks OK [final-grtown]: 
+[ ] visually distinct from example [final-grtown]: 
+[ ] theme makes sense (need explanation) [final-grtown]: 
+[ ] cool theme bonus (need explanation) [final-grtown]: 
+[ ] objects created for this assignment 1, not trivial, can be identified in world (need explanation) [final-grtown]: 
+[ ] objects created for this assignment 2, not trivial, can be identified in world (need explanation) [final-grtown]: 
+[ ] 5 more kinds of objects 1, not trivial, can identify (need explanation) [final-grtown]: 
+[ ] 5 more kinds of objects 2, not trivial, can identify (need explanation) [final-grtown]: 
+[ ] 5 more kinds of objects 3, not trivial, can identify (need explanation) [final-grtown]: 
+[ ] 5 more kinds of objects 4, not trivial, can identify (need explanation) [final-grtown]: 
+[ ] 5 more kinds of objects 5, not trivial, can identify (need explanation) [final-grtown]: 
+[ ] has building, natural, vehicle (need explanation) [final-grtown]: 
+[ ] loaded model (need explanation) [final-grtown]: 
+[ ] shader: identifiable and not trivial (need explanation) [final-grtown]: 
+[ ] three behaviors you made 1, not trivial, can be identified in scene (need explanation) [final-grtown]: 
+[ ] three behaviors you made 2, not trivial, can be identified in scene (need explanation) [final-grtown]: 
+[ ] three behaviors you made 3, not trivial, can be identified in scene (need explanation) [final-grtown]: 
+[ ] at least one object is rideable / followable [final-grtown]: 
+[ ] behavior that is not simple (need explanation) [final-grtown]: 
+[ ] articulated figure (need explanation) [final-grtown]: 
+[ ] advanced thing 1: has a challenge type (need the name and number from the list) [final-grtown]: 
+[ ] advanced thing 1: works properly, can be identified in the town (need explanation) [final-grtown]: 
+[ ] advanced thing 1: points above and beyond (need explanation) [final-grtown]: 
+[ ] advanced thing 2: has a challenge type (need the name and number from the list) [final-grtown]: 
+[ ] advanced thing 2: works properly, can be identified in the town (need explanation) [final-grtown]: 
+[ ] advanced thing 2: points above and beyond (need explanation) [final-grtown]: 
+[ ] advanced thing 3: has a challenge type (need the name and number from the list) [final-grtown]: 
+[ ] advanced thing 3: works properly, can be identified in the town (need explanation) [final-grtown]: 
+[ ] advanced thing 3: points above and beyond (need explanation) [final-grtown]: 
+[ ] advanced thing 4: has a challenge type (need the name and number from the list) [final-grtown]: 
+[ ] advanced thing 4: works properly, can be identified in the town (need explanation) [final-grtown]: 
+[ ] advanced thing 4: points above and beyond (need explanation) [final-grtown]: 
+[ ] advanced thing 5: has a challenge type (need the name and number from the list) [final-grtown]: 
+[ ] advanced thing 5: works properly, can be identified in the town (need explanation) [final-grtown]: 
+[ ] advanced thing 5: points above and beyond (need explanation) [final-grtown]: 
+
+If you have loaded any geometry from OBJ files, use the space below to credit your source for each file. Be sure to include a confirmation that you are permitted to use this asset (e.g., it is released under a Creative Commons license).
+
+You can follow this format, or something similar:
+
+- an-example-file.obj
+  - source: https://graphics.cs.wisc.edu/Courses/559-sp2021/
+  - author: username123
+ - license: CC BY 2.0
+
+

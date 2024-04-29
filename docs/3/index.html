@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    
+<!-- CS559 Workbook Pages - page content &copy; 2021, Michael Gleicher -->
+<!-- This page is part of a Workbook developed for the 
+    CS559 Computer Graphics Class at the University of Wisconsin
+    https://graphics.cs.wisc.edu/Courses/559-sp2021/ -->
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../../css/workbook.css">
+        <script src="../../js/resizeIFrames.js"></script>
+    </head>
+    <body>
+        <div class="container container--outer"><div class="maincolumn">
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header"><h1 class="post__title">Page 3: Graphics Town Hints</h1>
+		</header>
+        
+        
+        
+		<div class="content post__content clearfix"><h3 id="graphicstown-ui-basics">GraphicsTown UI Basics</h3>
+<p>You have been using the Graphics Town framework for the prior workbooks. The changes made for this workbook are small, and are specific to Graphics Town.</p>
+<p>The documentation for the framework is <a href="https://cs559.github.io/CS559-Framework23/">Framework Documentation</a>, but as always, the code is the main documentation.</p>
+<p>The main difference for Graphics Town is that we are going to use some features that make it possible for a user to appreciate a town built in it. You should make sure that these features work in your program. They should work if you use the framework correctly. We provide a control panel (WorldUI). Please do not remove the WorldUI - you can add things to it, but please do not remove any of the functions.</p>
+<p>The key features:</p>
+<ul>
+<li>The UI provides the ability to stop the animation (the run checkbox), and to control the animation speed (the speed slider). In order for this to work, you need to implement your behaviors correctly (see below).</li>
+<li>The user needs to be able to move around the world in order to explore the town. The framework provides two different types of camera controls (orbit and flying). It also provides other ways to position cameras relative to the objects.</li>
+<li>The user needs to be able to find the interesting objects quickly. The UI provides a “lookat” dropdown that lists all objects, as well as a “highlighted” objects list that allows these to be found quickly. This requires defining the objects correctly (see below).</li>
+<li>The user should be able to “ride” a moving object (so see how it moves around in the world). At least some objects should be rideable. In the framework, this requires the rideable property to be set (see below).</li>
+</ul>
+<p>To get all this functionality, you simply need to create your objects correctly! You do not need to implement the UI. We’ve done it for you. You should check that we can look at your objects by picking them with the UI, and ride (and follow) your moving objects.</p>
+<p>If you change the UI, please be careful not to break the functionality. We do need to be able to click on objects in the list to look at them.</p>
+<h2 id="lookat-objects">Lookat Objects</h2>
+<p>The UI code allows objects to be “looked at” (you select an object and the camera is teleported to look at that object by changing the lookfrom and lookat points). Each object has a lookFromLookAt method. It makes a guess of where to put the camera based on the object’s bounding box, but this is a guess. Object’s can override this method to do a better job.</p>
+<p>If you point the camera at a moving object, you point the camera at where the object is at the moment you move the camera. After that, the regular camera controls apply. Look at works best with non-moving objects. Use “Follow” to watch where an object goes.</p>
+<h2 id="highlighting-objects">Highlighting Objects</h2>
+<p>Because the list of objects to lookat can get long, the UI has a second selector for “highlighted objects”. It behaves just like the “lookat” list.</p>
+<p>To put an object on the “highlighted” list, you set its highlight member field to true. You should only highlight objects that are described in the rubric and text boxes. There is an example of how to highlight objects in 
+    <a href="../../for_students/final-grtown.js" class="for_students">final-grtown.js</a> - this looks the objects up by name.</p>
+<h2 id="following-objects">Following Objects</h2>
+<p>If an object is rideable, you can also follow it. To do this, first ride it, then select “follow object” from the camera type drop down. If you ride another object, it gets switched. See making objects ridable below.</p>
+<p>Right now, follow tries to estimate a position for the camera based on the object’s bounding box. It places itself behind (in the Z direction) and slightly above the object. This is imperfect.</p>
+<h2 id="the-initial-camera">The Initial Camera</h2>
+<p>The initial camera configuration is based on the groundplane. If you don’t have a groundplane, you must specify the initial camera configuration when you create the GrWorld.</p>
+<h2 id="flying-controls">Flying Controls</h2>
+<p>The Framework uses THREE’s flying controls. They aren’t great, and they aren’t documented. Drag the mouse to turn (be careful: if you drag outside the canvas it will miss the mouse up event). WASD to move, Q and E to roll.</p>
+<h3 id="making-behaviors">Making Behaviors</h3>
+<p>Use the stepWorld method of GrObject to animate things. The basics were introduced in workbook 8. You can put the behavior into a class (like the example does with SpinCube in 07-07-02.js). Over the later workbooks, you saw the use of tricks like adding methods to the objects after the object is created. SimpleBehaviors.js in the Framework folder has an example. Hidden in workbook 9, are more examples (the spinY function adds a method to an object, but the code to blink an object also adds a stepWorld method, and takes advantage of the non-lexical this in JavaScript. See 09-06-01.js in workbook 9.</p>
+<p>You can also look at the examples in the initial setup (like the simple track, the helicopter, and the morphing thingie).</p>
+<p>You should use the time delta passed to stepWorld not the “clock” time (as we have in prior workbooks). If you use the time delta parameter, your objects will correctly stop when the world is stopped, and have their speeds controlled by the speed slider. The delta parameter is the number of milliseconds the world should advance.</p>
+<p>For more complicated behaviors, you will need to keep track of time. The stepWorld method is given an amount of time (delta) that things advance, but isn’t given the actual resulting time. You may need to keep a variable inside of the object that gets incremented each time.</p>
+<h3 id="making-objects-rideable">Making Objects Rideable</h3>
+<p>The user interface allows the camera to be placed so that the user “rides” an object. In order for this to work, the object needs to be defined so that its center is at the origin, and the direction of travel is along the positive Z axis.</p>
+<p>In riding mode, the object is not drawn (otherwise, you’d see the inside of the object). This is done by hiding it.</p>
+<p>In a GrObject you set the rideable variable to be an Object3D that has the correct motion (the camera will be placed at the origin of this object’s coordinate system, and will face towards its positive z axis).</p>
+<h3 id="particles">Particles</h3>
+<p>To make a particle effect, you can either make each one be a separate shape (triangle or cube), or use a Points object (where each particle is a tiny dot - and then you use a PointsMaterial).</p>
+<h3 id="using-models">Using Models</h3>
+<p>You can find free models all over the web. OBJ is the simplest file format, but it can be problematic. More modern file formats are often more robust.</p>
+<p>THREE has loaders for many file formats, however they are not part of the main system. We have included the loader for OBJ files and FBX files with the Graphics Town Repository. We have also provided interfaces to make using these loaders easier within the framework.</p>
+<p>If things don’t work as expected, be sure to check the console log for errors. Because the loaders are not part of the “core” of THREE, they often have dependencies that must be loaded separately.</p>
+<p>Also, be aware that using a model can be challenging. For one, there are issues that the author may have created the model as a scale or position that isn’t convenient for you. Also, there are lots of broken model files around the web. These include incorrect normals, missing parts, or even files that are not valid data.</p>
+<h3 id="time-of-day">Time of Day</h3>
+<p>The Framework has support for “time of day” as an extra parameter to the stepWorld method of GrObject. This is for future expansion. Right now, the parameter is not used, and your objects can ignore it.</p>
+<h3 id="using-other-parts-of-three">Using Other Parts of THREE</h3>
+<p>We did not include all of THREE.js in the workbook. In particular, the complete examples set includes useful tools such as loaders for more file formats and subdivision surfaces. If you want to use on of these components, you need to add it to the workbook. The course staff can give you some guidance, but we cannot help you use parts of THREE beyond the core pieces we give you.</p>
+<h3 id="making-sure-it-works">Making Sure It Works</h3>
+<p>One common problem is that a student will forget to upload a file (a JS file, or an image file). To make sure this doesn’t happen to you…</p>
+<p>After you push your repo to GitHub, clone it to a different location (even a different directory on the same computer). And try it there. If it works, that’s a good sign. If it doesn’t work, figure out why and fix it.</p>
+<a href="../../docs/4/" class="Next__Page">Next: Graphics Town Rubric </a>
+
+            
+
+<div>
+        <i>There are no points associated with this page.</i>
+    </div>
+			
+			
+		</div>
+	</article>
+</main>
+
+                </div>
+                <div class="sidebar">
+<h2 class="Side_Title">Workbook 12: Graphics Town</h2>
+<p class="Side__Note">Pages:</p>
+<ul class="Side__List">
+    <li class="Side__Item Side__Unselected"><a href="../../">Index (Workbook Final: Graphics Town)</a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/1/">1: Graphics Town </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/2/">2: Graphics Town Overview </a></li>
+        <li class="Side__Item Side__Selected"> 3: Graphics Town Hints </li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/4/">4: Graphics Town Rubric </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/5/">5: Graphics Town Advanced Things </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/6/">6: Hand-in and Gallery </a></li>
+</ul>
+</div>
+</div>
+    </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    
+<!-- CS559 Workbook Pages - page content &copy; 2021, Michael Gleicher -->
+<!-- This page is part of a Workbook developed for the 
+    CS559 Computer Graphics Class at the University of Wisconsin
+    https://graphics.cs.wisc.edu/Courses/559-sp2021/ -->
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../../css/workbook.css">
+        <script src="../../js/resizeIFrames.js"></script>
+    </head>
+    <body>
+        <div class="container container--outer"><div class="maincolumn">
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header"><h1 class="post__title">Page 2: Graphics Town Overview</h1>
+		</header>
+        
+        
+        
+		<div class="content post__content clearfix"><h3 id="overview">Overview</h3>
+<p>The goal of this project is to create a town. It has to be a living town, with things moving around in it. We will provide you with a starter framework. But you must add the contents of the town.</p>
+<p>We hesitate to tell you what to do, since students in the past have come up with some really creative things. We’ve seen cities with skyscrapers, space cities with flying saucers, tropical islands, a Harry Potter city with flying broomsticks, farms with cows and chickens, farms where flying saucers came and abducted the cows, … There are gallery pages with some old projects if you want some ideas (see below - or check out the old <a href="https://pages.graphics.cs.wisc.edu/559-sp24/pages/galleries/">galleries</a> to see some motivating examples).</p>
+<p>If this sounds like its arbitrarily open-ended, you have the right idea. Clearly, you could make this as fancy as you want. Our goal is to give you the opportunity to demonstrate your competence at writing 3D graphics programs, as well as an opportunity to experiment with some more advanced topics that you think are interesting. However, we encourage you to focus on the core requirements first.</p>
+<p>The hard part in specifying this assignment is providing grading criteria. The short version: do enough cool stuff and document it. We want students to be creative and try things out, but also focus on graphics aspects in their projects. Previous versions of the assignment had long complicated lists of grading criteria. This semester, it’s simpler, but there are still lots of options listed.</p>
+<p>You will create your town by building on top of the “Graphics Town Framework” that we will provide. You have been using this framework over the past several workbooks. In fact, you can take objects from prior workbooks and put them in your town. When you try the example, you will notice that there are some additional features of the framework that you haven’t used yet (like the ability to ride objects or look at specific objects) - these will make it easier for us to see things in your world.</p>
+<p>All of the requirements are objects that you add to the framework (you should have experience doing this from prior assignments). Some requirements are specific, while others are more broad.</p>
+<h3 id="deadlines">Deadlines</h3>
+<p>Ideally, we would give you as much time as possible so you have lots of time to make cool stuff. But, because of the end of the semester, we are limited in how much time we can give you. There are University rules and practical issues with grading assignments in a timely manner.</p>
+<p>The assignment is due the last day of class, May 1, 2024. Late assignments will not be accepted.</p>
+<p>Remember, turning in your assignment means submitting the Canvas P2 Assignment. We won’t know to grade your assignment if you do not do the assignment.</p>
+<h3 id="requirements">Requirements</h3>
+<p>The 
+    <a href="../../for_students/gr-01-01.html" class="for_students">gr-01-01.html</a> page has a view of your town that allows the user to explore and see everything. An appropriate interface is provided by the framework. The initial repository you start with provides a simple “world.” You need to change that simple world into something more interesting. You will need to add new objects (and probably remove the ones that are there). You will need to arrange the objects in a meaningful way. You will need to give the (at least some of the) objects behaviors. We use the term “behavior” for the code that makes the object move and do stuff.</p>
+<p>The real requirement is to make a cool world that shows off your ability to do graphics programming. <a href="../../docs/4/">Page  4  (Graphics Town Rubric)</a> gives some more specific things that you must do in order to get full credit. But basically, it is to make objects and put them in the world. The rubric may seem long and complicated, but that is because we are trying to quantify “cool enough” in a way that gives students flexibility.</p>
+<p>The framework provides the required user interface <a href="../../docs/3/">Page  3  (Graphics Town Hints)</a>. You should not need to change the framework code. You should use the framework correctly in order to provide the required user interface.</p>
+<p>You will need to define new object types (with behaviors, through their stepWorld methods), and update the 
+    <a href="../../for_students/gr-01-01.js" class="for_students">gr-01-01.js</a> file to create the world appropriately by placing objects into the GrWorld. You should be experienced with doing this from prior workbooks. Note: be sure to use the timeDelta parameter of stepWorld: your objects must stop when the the world is stopped, and the speed control of the world must work. See <a href="../../docs/3/">Page  3  (Graphics Town Hints)</a> for some details.</p>
+<p>The objects you create have names that allow them to be identified in the user interface. This means that all objects should have meaningful names, and these names have to be unique. Objects are automatically put on the “lookat” list in the user interface.</p>
+<p>You must identify some objects to be on the “highlight” list in the UI: this is a shorter version of the “lookat” list that allows us to find interesting objects quickly. The rubric will specify which objects should be placed on this list. See <a href="../../docs/3/">Page  3  (Graphics Town Hints)</a> for some details on highlight.</p>
+<p>The examples directory contains a bunch of sample objects, as well as an example “setup” function that places them into the world. You may use the objects (see below about using objects from others). You may want to make the groundplane bigger (you give yourself more “land”), or remove it altogether. Be warned: the framework code computes the initial camera position based on the groundplane, so if you have no groundplane, you will need to give an initial camera configuration.</p>
+<p>Your town must look like a reasonable scene - it can’t just be a collection of random objects placed haphazardly (as the sample scene is). We will ask you what your “theme” is.</p>
+<p>Your program needs to run at a reasonable frame rate on a testing computer. Not all of the course staff have fast computers with fancy GPUs. Don’t go too overboard with excessive numbers of objects.</p>
+<p>You must also provide documentation by filling in the <strong>p2-workbook.txt</strong> of the workbook. This is very important! We cannot give you credit for things that you do not document!</p>
+<h3 id="collaboration-use-re-use-and-attribution">Collaboration: Use, Re-Use and Attribution</h3>
+<p>You must complete this assignment yourself. We are not allowing students to work in groups.</p>
+<p>For this assignment, we do allow you to use pieces that you have made for prior assignments without attribution. However, there are a bunch of rules for this.</p>
+<p>You must give attribution for anything that you do not make yourself and provide sufficient documentation to show that you understand the code. If you find it on the web, you must give a link. If you get it from someone else, you must explicitly name them in your documentation. You must have permission to use anything that you did not make yourself. If you find it on the web, make sure that it has an open license. If you get it from someone else, make sure it is OK with them. If your work is based on a tutorial, online document, or something like that, please specify it in the textbox.</p>
+<p>You are encouraged to use pieces from your old workbooks for this assignment. In the past, you’ve been using the Graphics Town framework to make houses, cars, shiny objects, amusement park rides, &hellip; You need to make some new stuff, but you are also encouraged to use old stuff as well. The goal is to have lots of stuff. In fact, some of your 2D assignments can be converted (the fireworks and train are good candidates).</p>
+<p><strong>Not recommended</strong> You may use art assets (e.g. 3D model files and images) that you obtain online. If you use a model or texture (or any other “asset”) from the web, make sure you have the legal right to use it, and document where it came from when you give attribution. Note that an object loaded from a 3D model file fulfills a requirement, but not all of your objects can be files you obtained.</p>
+<h3 id="history">History</h3>
+<p>The Graphics Town Project has a long history (since <a href="https://research.cs.wisc.edu/graphics/Courses/559-f2000/559.htm">2000</a>, and students have generally liked it over the years. The history is described on this <a href="https://pages.graphics.cs.wisc.edu/559-f14/2014/11/07/project-2-graphics-town-framework-code/">2014</a> page. That page also discusses the old C++ framework code (which you don’t have to look at). The assignment is described at the <a href="https://pages.graphics.cs.wisc.edu/559-f14/2014/11/07/project-2-graphics-town/">2014 Graphics Town Project</a> Page. 2014 was the last year of the C++ version of the assignment.</p>
+<p>The most interesting thing about the history is to see what other students have done to inspire you. The past five years, students had a similar (but not identical) assignment: <a href="https://pages.graphics.cs.wisc.edu/559-sp24/pages/galleries/">galleries</a>.</p>
+<p>There is a Gallery for some years past. Remember, these were different assignments: in older assignments students didn’t have a high level API (like THREE) to work with, and they were given less starter code. It’s pretty remarkable how creative the students were. <a href="https://pages.graphics.cs.wisc.edu/559-f14/2014/12/18/2014-project-gallery/">2014</a>, <a href="https://graphics.cs.wisc.edu/Courses/559-f2010/posts/p4gallery-p4gallery/">2010</a>, <a href="https://graphics.cs.wisc.edu/Courses/559-f2009/posts/main-p4gallery/">2009</a>.</p>
+<p>The <a href="https://research.cs.wisc.edu/graphics/Courses/559-f2000/Project3/index.htm">2000 Graphics Town Assignment</a> Page is an interesting historical artifact. Things have come a long way in 20 years.</p>
+<a href="../../docs/3/" class="Next__Page">Next: Graphics Town Hints </a>
+
+            
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="page-rubric-container">
+    <details class="page__rubric">
+    <summary>Page 2 Rubric (61 points total)</summary>
+    <br/>
+    <div class="page-rubric-grid">
+            <div class="page-rubric-grid-header rubric-box-regular">Points (31):</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">program runs (or seems to run correctly - worth looking at error console)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">frame rate seems OK (not too slow)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">UI is there and seems to work (can lookat and ride)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">highlight list looks OK</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">visually distinct from example</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">theme makes sense (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">cool theme bonus (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">objects created for this assignment 1, not trivial, can be identified in world (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">objects created for this assignment 2, not trivial, can be identified in world (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">5 more kinds of objects 1, not trivial, can identify (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">5 more kinds of objects 2, not trivial, can identify (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">5 more kinds of objects 3, not trivial, can identify (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">5 more kinds of objects 4, not trivial, can identify (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">5 more kinds of objects 5, not trivial, can identify (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">has building, natural, vehicle (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">loaded model (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">shader: identifiable and not trivial (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">three behaviors you made 1, not trivial, can be identified in scene (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">three behaviors you made 2, not trivial, can be identified in scene (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">three behaviors you made 3, not trivial, can be identified in scene (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">at least one object is rideable / followable</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">behavior that is not simple (need explanation)</div><div class="page-rubric-grid-box rubric-box-regular">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-regular">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-regular">articulated figure (need explanation)</div>
+            <div class="page-rubric-grid-header rubric-box-bonus">Advanced points (30) 
+                :</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 1: has a challenge type (need the name and number from the list)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">3 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 1: works properly, can be identified in the town (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 1: points above and beyond (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 2: has a challenge type (need the name and number from the list)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">3 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 2: works properly, can be identified in the town (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 2: points above and beyond (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 3: has a challenge type (need the name and number from the list)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">3 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 3: works properly, can be identified in the town (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 3: points above and beyond (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 4: has a challenge type (need the name and number from the list)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">3 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 4: works properly, can be identified in the town (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 4: points above and beyond (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">1 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 5: has a challenge type (need the name and number from the list)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">3 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 5: works properly, can be identified in the town (need explanation)</div><div class="page-rubric-grid-box rubric-box-bonus">Box final-grtown</div>
+                <div class="page-rubric-grid-points rubric-box-bonus">2 pt</div>
+                <div class="page-rubric-grid-desc rubric-box-bonus">advanced thing 5: points above and beyond (need explanation)</div></div>
+    </details>
+    </div>
+			
+			
+		</div>
+	</article>
+</main>
+
+                </div>
+                <div class="sidebar">
+<h2 class="Side_Title">Workbook 12: Graphics Town</h2>
+<p class="Side__Note">Pages:</p>
+<ul class="Side__List">
+    <li class="Side__Item Side__Unselected"><a href="../../">Index (Workbook Final: Graphics Town)</a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/1/">1: Graphics Town </a></li>
+        <li class="Side__Item Side__Selected"> 2: Graphics Town Overview </li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/3/">3: Graphics Town Hints </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/4/">4: Graphics Town Rubric </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/5/">5: Graphics Town Advanced Things </a></li>
+        <li class="Side__Item Side__Unselected"> <a href="../../docs/6/">6: Hand-in and Gallery </a></li>
+</ul>
+</div>
+</div>
+    </body>
+</html>
