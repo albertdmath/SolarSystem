@@ -28,29 +28,31 @@ import * as InputHelpers from "../libs/CS559/inputHelpers.js";
  * This builds up the world and makes it go...
  */
 
-// make the world
-//let camera = new T.PerspectiveCamera(45,1920/1080,0.1,200000);
+// Make the world:
 let world = new GrWorld({
-    //camera:camera,
-    //lookat:new T.Vector3(0,0,10000),
-    //lookfrom:new T.Vector3(0,0,900),
     width: 1920,
     height: 1080,
-    far: 200000,
+    far: 1000000,
     groundplane: false,
 });
 
-// Handle keyboard input
+// Handle keyboard input:
 let moveForward = false;
 let moveBackward = false;
 let turnLeft = false;
 let turnRight = false;
-// let box_geometry = new T.BoxGeometry(10,10,20);
-// let box_material = new T.MeshStandardMaterial({color:"yellow"});
-// let box_mesh = new T.Mesh(box_geometry,box_material);
+let rollLeft = false;
+let rollRight = false;
+let turnUp = false;
+let turnDown = false;
+let speedUp = false;
+let speedDown = false;
+// Initial speed of spaceship:
+let speed = 10;
 
 // Spaceship Class
 export class Spaceship extends Loaders.ObjGrObject {
+    // Constructor
     constructor(params={}) {
         super({
             obj:"./textures/spaceship.obj",
@@ -58,30 +60,18 @@ export class Spaceship extends Loaders.ObjGrObject {
             name: "Spaceship",
         })
 
-
-        // let spaceship = new Loaders.ObjGrObject({
-        //     obj:"./textures/spaceship.obj",
-        // });
-
+        // Do the fancy rideable stuff to get a third person camera:
         this.ridePoint = new T.Object3D();
         this.ridePoint.translateY(0.5);
         this.ridePoint.translateZ(-3);
         this.objects[0].add(this.ridePoint);
         this.rideable = this.ridePoint;
-
-
         this.objects[0].position.set(0,0,1000);
-        this.objects[0].scale.set(0.1,0.1,0.1);
-        //spaceship.rideable=true;
-        //world.add(spaceship);
-        //box_mesh.position.set(0, 0, 1000);
-      
-        //super("Spaceship", spaceship);
+        this.objects[0].scale.set(0.01,0.01,0.01);
         this.mesh=this.objects[0];
         this.time=0;
-        //this.rideable=this.objects[0];
-
         
+        // Event handlers to control the spaceship:
         document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
             case 87: // W key
@@ -96,9 +86,28 @@ export class Spaceship extends Loaders.ObjGrObject {
             case 68: // D key
                 turnRight = true;
                 break;
+            case 81: // Q key
+                rollLeft = true;
+                break;
+            case 69: // E key
+                rollRight = true;
+                break;
+            case 38: // uparrow key
+                turnUp = true;
+                break;
+            case 40: // downarrow key
+                turnDown = true;
+                break;
+            case 39: // rightarrow key
+                speedUp = true;
+                break;
+            case 37: // leftarrow key
+                speedDown = true;
+                break;
             }
         });
 
+        // Event handlers to control the spaceship:
         document.addEventListener('keyup', function (event) {
         switch (event.keyCode) {
             case 87: // W key
@@ -113,15 +122,33 @@ export class Spaceship extends Loaders.ObjGrObject {
             case 68: // D key
                 turnRight = false;
                 break;
+            case 81: // Q key
+                rollLeft = false;
+                break;
+            case 69: // E key
+                rollRight = false;
+                break;
+            case 38: // uparrow key
+                turnUp = false;
+                break;
+            case 40: // downarrow key
+                turnDown = false;
+                break;
+            case 39: // rightarrow key
+                speedUp = false;
+                break;
+            case 37: // leftarrow key
+                speedDown = false;
+                break;
             }
         });
     }
 
+    // Animation stuff:
     stepWorld(delta) {
         this.time+=delta;
-        //this.mesh.rotateY(delta/5000);
         // Help from chat gpt to get local axis:
-        let direction = new T.Vector3(0, 0, 100);
+        let direction = new T.Vector3(0, 0, speed);
         direction.applyQuaternion(this.mesh.quaternion); // Apply the box's rotation        
         if (moveForward) {
            this.mesh.position.add(direction.clone().multiplyScalar(0.1)); // Move forward along local z-axis
@@ -130,18 +157,32 @@ export class Spaceship extends Loaders.ObjGrObject {
             this.mesh.position.add(direction.clone().multiplyScalar(-0.1)); // Move backward along local z-axis
         }
         if (turnLeft) {
-            this.mesh.rotateY(delta/5000);
+            this.mesh.rotateY(delta/2500);
         }
         if (turnRight) {
-            this.mesh.rotateY(-delta/5000);
+            this.mesh.rotateY(-delta/2500);
         }
-
-        // camera.position.set(0,0,this.mesh.position.z-50);
-        // camera.lookAt(this.mesh);
-        // world.renderer.render(world.scene,camera);
+        // This stuff seems to complicate things a lot use at your own risk:
+        if(rollLeft) {
+            //this.mesh.rotateZ(-delta/2500);
+        }
+        if(rollRight) {
+            //this.mesh.rotateZ(delta/2500);
+        }
+        if(turnUp) {
+            //this.mesh.rotateX(delta/2500);
+        }
+        if(turnDown) {
+            //this.mesh.rotateX(-delta/2500);
+        }
+        if(speedUp) {
+            speed += 0.01;
+        }
+        if(speedDown) {
+            speed -= 0.01;
+        }
     }
 }
-
 
 // texture loaders:
 let sun_texture = new T.TextureLoader().load("./textures/sun.jpg");
@@ -155,7 +196,7 @@ let saturn_texture = new T.TextureLoader().load("./textures/saturn.jpg");
 let uranus_texture = new T.TextureLoader().load("./textures/uranus.jpg");
 let neptune_texture = new T.TextureLoader().load("./textures/neptune.jpg");
 let pluto_texture = new T.TextureLoader().load("./textures/pluto.jpg");
-let star_texture = new T.TextureLoader().load("./textures/stars.png");
+let star_texture = new T.TextureLoader().load("./textures/stars.jpg");
 
 // Geometries/materials/meshes:
 let sphere_geometry = new T.SphereGeometry(1,500,500);
@@ -183,8 +224,12 @@ let neptune_mesh = new T.Mesh(sphere_geometry,neptune_material);
 let pluto_material = new T.MeshStandardMaterial({color:"white", map:pluto_texture, bumpMap:pluto_texture, bumpScale:10});
 let pluto_mesh = new T.Mesh(sphere_geometry,pluto_material);
 
-// Note: Planet diameters scaled down by 1000.
-// Note: Planet orbit radii scaled down by 40,000.
+// Note: Planet diameters are scaled down by 1,000, but they are all to scale.
+// For example, the sun is 865,000 miles in diameter, so I put a sphere of size 865.
+// The Earth is 7938 miles in diameter, so I put a sphere of size 7.938.
+// Note: Planet distances from sun are scaled down by 500,000.
+// So, Earth is 93 million miles away, so I put 186 as the radius.
+
 // Sun_Sphere Class
 export class Sun_Sphere extends GrObject {
     constructor(params={}) {
@@ -213,7 +258,7 @@ export class Mercury_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        this.mesh.position.set(920*Math.sin(this.time / 1000000), 0, 920*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+70)*Math.sin(this.time / 51000), 0, (865+70)*Math.cos(this.time / 51000));
     }
 }
 
@@ -229,7 +274,7 @@ export class Venus_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        this.mesh.position.set(1680*Math.sin(this.time / 1000000), 0, 1680*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+134)*Math.sin(this.time / 50000), 0, (865+134)*Math.cos(this.time / 50000));
     }
 }
 
@@ -245,7 +290,7 @@ export class Earth_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        this.mesh.position.set(2325*Math.sin(this.time / 1000000), 0, 2325*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+186)*Math.sin(this.time / 50500), 0, (865+186)*Math.cos(this.time / 50500));
     }
 }
 
@@ -261,7 +306,7 @@ export class Moon_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        this.mesh.position.set(2400*Math.sin(this.time / 1000000), 0, 2400*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+200)*Math.sin(this.time / 50000), 0, (865+200)*Math.cos(this.time / 50000));
     }
 }
 
@@ -277,7 +322,7 @@ export class Mars_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        this.mesh.position.set(3540*Math.sin(this.time / 1000000), 0, 3540*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+284)*Math.sin(this.time / 51500), 0, (865+284)*Math.cos(this.time / 51500));
     }
 }
 
@@ -293,8 +338,7 @@ export class Jupiter_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        // Should be 12090
-        this.mesh.position.set(8500*Math.sin(this.time / 1000000), 0, 8500*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+968)*Math.sin(this.time / 50000), 0, (865+968)*Math.cos(this.time / 50000));
     }
 }
 
@@ -310,8 +354,7 @@ export class Saturn_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        // Should be 22163
-        this.mesh.position.set(13500*Math.sin(this.time / 1000000), 0, 13500*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+1778)*Math.sin(this.time / 52000), 0, (865+1778)*Math.cos(this.time / 52000));
     }
 }
 
@@ -327,8 +370,7 @@ export class Uranus_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        // Should be 44593
-        this.mesh.position.set(18500*Math.sin(this.time / 1000000), 0, 18500*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+3580)*Math.sin(this.time / 23000), 0, (865+3580)*Math.cos(this.time / 23000));
     }
 }
 
@@ -344,8 +386,7 @@ export class Neptune_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        // Should be 69880
-        this.mesh.position.set(23500*Math.sin(this.time / 1000000), 0, 23500*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+5600)*Math.sin(this.time / 20000), 0, (865+5600)*Math.cos(this.time / 20000));
     }
 }
 
@@ -361,21 +402,20 @@ export class Pluto_Sphere extends GrObject {
     stepWorld(delta) {
         this.time += delta;
         this.mesh.rotateY(delta/5000);
-        // Should be 91753
-        this.mesh.position.set(28500*Math.sin(this.time / 1000000), 0, 28500*Math.cos(this.time / 1000000));
+        this.mesh.position.set((865+7400)*Math.sin(this.time / 20000), 0, (865+7400)*Math.cos(this.time / 20000));
     }
 }
 
 // Star skybox:
 const loader = new T.CubeTextureLoader();
 const textureCube = loader.load(
-    ['./textures/stars.png','./textures/stars.png','./textures/stars.png','./textures/stars.png','./textures/stars.png','./textures/stars.png']
+    ['./textures/stars.jpg','./textures/stars.jpg','./textures/stars.jpg','./textures/stars.jpg','./textures/stars.jpg','./textures/stars.jpg']
 );
 
 // Create some better light:
 const ambientLight = new T.AmbientLight("white",2);
 world.scene.add(ambientLight);
-//world.scene.background = textureCube;
+world.scene.background = textureCube;
 
 // Create planet classes:
 let sun_sphere = new Sun_Sphere();
