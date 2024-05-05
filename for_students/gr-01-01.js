@@ -29,7 +29,11 @@ import * as InputHelpers from "../libs/CS559/inputHelpers.js";
  */
 
 // make the world
+//let camera = new T.PerspectiveCamera(45,1920/1080,0.1,200000);
 let world = new GrWorld({
+    //camera:camera,
+    //lookat:new T.Vector3(0,0,10000),
+    //lookfrom:new T.Vector3(0,0,900),
     width: 1920,
     height: 1080,
     far: 200000,
@@ -37,107 +41,107 @@ let world = new GrWorld({
 });
 
 // Handle keyboard input
-// let moveForward = false;
-// let moveBackward = false;
-// let turnLeft = false;
-// let turnRight = false;
+let moveForward = false;
+let moveBackward = false;
+let turnLeft = false;
+let turnRight = false;
 // let box_geometry = new T.BoxGeometry(10,10,20);
 // let box_material = new T.MeshStandardMaterial({color:"yellow"});
 // let box_mesh = new T.Mesh(box_geometry,box_material);
 
-let spaceship = new Loaders.ObjGrObject({
-    obj:"./textures/spaceship.obj",
-});
-spaceship.objects[0].position.set(1500,1500,1500);
-spaceship.objects[0].scale.set(1,1,1);
-//spaceship.rideable=true;
-world.add(spaceship);
-
-/** 
 // Spaceship Class
-export class Spaceship extends GrObject {
+export class Spaceship extends Loaders.ObjGrObject {
     constructor(params={}) {
+        super({
+            obj:"./textures/spaceship.obj",
+            norm:2,
+            name: "Spaceship",
+        })
+
+
+        // let spaceship = new Loaders.ObjGrObject({
+        //     obj:"./textures/spaceship.obj",
+        // });
+
+        this.ridePoint = new T.Object3D();
+        this.ridePoint.translateY(0.5);
+        this.ridePoint.translateZ(-3);
+        this.objects[0].add(this.ridePoint);
+        this.rideable = this.ridePoint;
+
+
+        this.objects[0].position.set(0,0,1000);
+        this.objects[0].scale.set(0.1,0.1,0.1);
+        //spaceship.rideable=true;
+        //world.add(spaceship);
         //box_mesh.position.set(0, 0, 1000);
       
-        // super("Spaceship", spaceship1);
-        // this.mesh=spaceship1;
-        // this.time=0;
-        // this.rideable=true;
+        //super("Spaceship", spaceship);
+        this.mesh=this.objects[0];
+        this.time=0;
+        //this.rideable=this.objects[0];
 
         
-        // document.addEventListener('keydown', function (event) {
-        // switch (event.keyCode) {
-        //     case 87: // W key
-        //         moveForward = true;
-        //         break;
-        //     case 83: // S key
-        //         moveBackward = true;
-        //         break;
-        //     case 65: // A key
-        //         turnLeft = true;
-        //         break;
-        //     case 68: // D key
-        //         turnRight = true;
-        //         break;
-        //     }
-        // });
+        document.addEventListener('keydown', function (event) {
+        switch (event.keyCode) {
+            case 87: // W key
+                moveForward = true;
+                break;
+            case 83: // S key
+                moveBackward = true;
+                break;
+            case 65: // A key
+                turnLeft = true;
+                break;
+            case 68: // D key
+                turnRight = true;
+                break;
+            }
+        });
 
-        // document.addEventListener('keyup', function (event) {
-        // switch (event.keyCode) {
-        //     case 87: // W key
-        //         moveForward = false;
-        //         break;
-        //     case 83: // S key
-        //         moveBackward = false;
-        //         break;
-        //     case 65: // A key
-        //         turnLeft = false;
-        //         break;
-        //     case 68: // D key
-        //         turnRight = false;
-        //         break;
-        //     }
-        // });
+        document.addEventListener('keyup', function (event) {
+        switch (event.keyCode) {
+            case 87: // W key
+                moveForward = false;
+                break;
+            case 83: // S key
+                moveBackward = false;
+                break;
+            case 65: // A key
+                turnLeft = false;
+                break;
+            case 68: // D key
+                turnRight = false;
+                break;
+            }
+        });
     }
 
     stepWorld(delta) {
-        // this.time+=delta;
-        // //this.mesh.rotateY(delta/5000);
-        // // Help from chat gpt to get local axis:
-        // let direction = new T.Vector3(0, 0, 100);
-        // direction.applyQuaternion(this.mesh.quaternion); // Apply the box's rotation        
-        // if (moveForward) {
-        //    this.mesh.position.add(direction.clone().multiplyScalar(-0.1)); // Move forward along local z-axis
-        // }
-        // if (moveBackward) {
-        //     this.mesh.position.add(direction.clone().multiplyScalar(0.1)); // Move backward along local z-axis
-        // }
-        // if (turnLeft) {
-        //     this.mesh.rotateY(delta/5000);
-        // }
-        // if (turnRight) {
-        //     this.mesh.rotateY(-delta/5000);
-        // }
+        this.time+=delta;
+        //this.mesh.rotateY(delta/5000);
+        // Help from chat gpt to get local axis:
+        let direction = new T.Vector3(0, 0, 100);
+        direction.applyQuaternion(this.mesh.quaternion); // Apply the box's rotation        
+        if (moveForward) {
+           this.mesh.position.add(direction.clone().multiplyScalar(0.1)); // Move forward along local z-axis
+        }
+        if (moveBackward) {
+            this.mesh.position.add(direction.clone().multiplyScalar(-0.1)); // Move backward along local z-axis
+        }
+        if (turnLeft) {
+            this.mesh.rotateY(delta/5000);
+        }
+        if (turnRight) {
+            this.mesh.rotateY(-delta/5000);
+        }
 
-
-        // let world1 = new GrWorld({
-        //     camera:camera,
-        //     width: 1920,
-        //     height: 1080,
-        //     far: 200000,
-        //     //lookfrom:new T.Vector3(0,0,0),
-        //     lookat:new T.Vector3(1500,1500,1500),
-        //     groundplane: false, // make the ground plane big enough for a world of stuff
-        // });
-        //world1.renderer.render(world1.scene,camera);
-        
-
-        //camera.position.set(1500,1500,1550);
-        //world.camera.lookAt(this.mesh.position);
-
+        // camera.position.set(0,0,this.mesh.position.z-50);
+        // camera.lookAt(this.mesh);
+        // world.renderer.render(world.scene,camera);
     }
 }
-*/
+
 
 // texture loaders:
 let sun_texture = new T.TextureLoader().load("./textures/sun.jpg");
@@ -385,7 +389,7 @@ let saturn_sphere = new Saturn_Sphere();
 let uranus_sphere = new Uranus_Sphere();
 let neptune_sphere = new Neptune_Sphere();
 let pluto_sphere = new Pluto_Sphere();
-//let spaceship = new Spaceship();
+let spaceship = new Spaceship();
 
 // Add planets to the world (with scaling):
 world.add(sun_sphere);
@@ -421,7 +425,7 @@ highlight("Saturn_Sphere");
 highlight("Uranus_Sphere");
 highlight("Neptune_Sphere");
 highlight("Pluto_Sphere");
-//highlight("Spaceship");
+highlight("Spaceship");
 
 //world.renderer.render(world.scene,camera);
 world.ui = new WorldUI(world);
