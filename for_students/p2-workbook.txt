@@ -1,35 +1,37 @@
-Wisc ID: 
-GitHub ID: 
+Wisc ID: sandru
+GitHub ID: albertdmath
 
-[ ] correct P2 Canvas Assignment submission [none]: 
-[ ] clear explanations in p2-workbook.txt [none]: 
-[ ] correct P2G Canvas Assignment submission on time [none]: 
-[ ] program runs (or seems to run correctly - worth looking at error console) [final-grtown]: 
-[ ] frame rate seems OK (not too slow) [final-grtown]: 
-[ ] UI is there and seems to work (can lookat and ride) [final-grtown]: 
-[ ] highlight list looks OK [final-grtown]: 
-[ ] visually distinct from example [final-grtown]: 
-[ ] theme makes sense (need explanation) [final-grtown]: 
-[ ] cool theme bonus (need explanation) [final-grtown]: 
-[ ] objects created for this assignment 1, not trivial, can be identified in world (need explanation) [final-grtown]: 
-[ ] objects created for this assignment 2, not trivial, can be identified in world (need explanation) [final-grtown]: 
-[ ] 5 more kinds of objects 1, not trivial, can identify (need explanation) [final-grtown]: 
-[ ] 5 more kinds of objects 2, not trivial, can identify (need explanation) [final-grtown]: 
-[ ] 5 more kinds of objects 3, not trivial, can identify (need explanation) [final-grtown]: 
-[ ] 5 more kinds of objects 4, not trivial, can identify (need explanation) [final-grtown]: 
-[ ] 5 more kinds of objects 5, not trivial, can identify (need explanation) [final-grtown]: 
-[ ] has building, natural, vehicle (need explanation) [final-grtown]: 
-[ ] loaded model (need explanation) [final-grtown]: 
+[X]  correct P2 Canvas Assignment submission [none]: 
+[X] clear explanations in p2-workbook.txt [none]: 
+[X] correct P2G Canvas Assignment submission on time [none]: 
+[X] program runs (or seems to run correctly - worth looking at error console) [final-grtown]: It runs, I have no errors in console. You might have to zoom out to see all the planets correctly,
+    or change the window size.
+[X] frame rate seems OK (not too slow) [final-grtown]: It works smoothly on my computer.
+[X] UI is there and seems to work (can lookat and ride) [final-grtown]: The UI is there.
+[X] highlight list looks OK [final-grtown]: I am highlighting some important objects. 
+[X] visually distinct from example [final-grtown]: It's definitely different from the example.
+[X] theme makes sense (need explanation) [final-grtown]: The theme is our solar system.
+[X] cool theme bonus (need explanation) [final-grtown]: I think it's cool. I tried to keep everything as close to scale as possible.
+[X] objects created for this assignment 1, not trivial, can be identified in world (need explanation) [final-grtown]: Alien on top of mars.
+[X] objects created for this assignment 2, not trivial, can be identified in world (need explanation) [final-grtown]: Astronaut around earth.
+[X] 5 more kinds of objects 1, not trivial, can identify (need explanation) [final-grtown]: Satellite around earth. I didn't make multiple objects because it didn't fit with the theme.
+[X] 5 more kinds of objects 2, not trivial, can identify (need explanation) [final-grtown]: The planets themselves. Saturn has a ring.
+[X] 5 more kinds of objects 3, not trivial, can identify (need explanation) [final-grtown]: Mirror sphere inside the sun.
+[X] 5 more kinds of objects 4, not trivial, can identify (need explanation) [final-grtown]: Spaceship that I colored red.
+[X] 5 more kinds of objects 5, not trivial, can identify (need explanation) [final-grtown]: Earth has it's moon.
+[X] has building, natural, vehicle (need explanation) [final-grtown]: I have a vehicle (spaceship).
+[X] loaded model (need explanation) [final-grtown]: The spaceship is loaded.
 [ ] shader: identifiable and not trivial (need explanation) [final-grtown]: 
-[ ] three behaviors you made 1, not trivial, can be identified in scene (need explanation) [final-grtown]: 
-[ ] three behaviors you made 2, not trivial, can be identified in scene (need explanation) [final-grtown]: 
-[ ] three behaviors you made 3, not trivial, can be identified in scene (need explanation) [final-grtown]: 
-[ ] at least one object is rideable / followable [final-grtown]: 
-[ ] behavior that is not simple (need explanation) [final-grtown]: 
+[X] three behaviors you made 1, not trivial, can be identified in scene (need explanation) [final-grtown]: The spaceship has nontrivial controls. wasd for up down left right.
+    Use q and e to roll. use the number pad 8546 numbers to go up down, speed up and speed down.
+[X] three behaviors you made 2, not trivial, can be identified in scene (need explanation) [final-grtown]: The sun has a nontrivial environment map that creates a cool wavy effect.
+[X] three behaviors you made 3, not trivial, can be identified in scene (need explanation) [final-grtown]: Getting everything to scale was nontrivial.
+[X] at least one object is rideable / followable [final-grtown]: You can ride the spaceship.
+[X] behavior that is not simple (need explanation) [final-grtown]: Many of the above things are nonsimple.
 [ ] articulated figure (need explanation) [final-grtown]: 
-[ ] advanced thing 1: has a challenge type (need the name and number from the list) [final-grtown]: 
-[ ] advanced thing 1: works properly, can be identified in the town (need explanation) [final-grtown]: 
-[ ] advanced thing 1: points above and beyond (need explanation) [final-grtown]: 
+[X] advanced thing 1: has a challenge type (need the name and number from the list) [final-grtown]: 16. Dynamic texture map on the sun.
+[X] advanced thing 1: works properly, can be identified in the town (need explanation) [final-grtown]: It works well. See the mirror inside of the sun.
+[X] advanced thing 1: points above and beyond (need explanation) [final-grtown]: I think it looks awesome.
 [ ] advanced thing 2: has a challenge type (need the name and number from the list) [final-grtown]: 
 [ ] advanced thing 2: works properly, can be identified in the town (need explanation) [final-grtown]: 
 [ ] advanced thing 2: points above and beyond (need explanation) [final-grtown]: 

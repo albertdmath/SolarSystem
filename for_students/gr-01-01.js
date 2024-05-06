@@ -30,8 +30,8 @@ import * as InputHelpers from "../libs/CS559/inputHelpers.js";
 
 // Make the world:
 let world = new GrWorld({
-    width: 1920,
-    height: 1080,
+    width: 1920, // CHANGE THESE IF WINDOW IS TOO BIG!!!
+    height: 1080, // CHANGE THESE IF WINDOW IS TOO BIG!!!
     far: 1000000,
     groundplane: false,
 });
@@ -50,6 +50,148 @@ let speedDown = false;
 // Initial speed of spaceship:
 let speed = 10;
 
+// Alien Class
+export class Alien extends Loaders.ObjGrObject {
+    // Constructor
+    constructor(params={}) {
+        super({
+            obj:"./textures/alien.obj",
+            norm:0.1,
+            name: "Alien",
+            // Make the alien green.
+            callback: (self) => {
+                self.objects[0].traverse(obj => {
+                    if (obj instanceof T.Mesh) {
+                        obj.material = new T.MeshStandardMaterial({ color: 0x00ff00 }); // Green color
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Astronaut Class
+export class Astronaut extends Loaders.ObjGrObject {
+    // Constructor
+    constructor(params={}) {
+        super({
+            obj:"./textures/astronaut.obj",
+            norm:0.1,
+            name: "Astronaut",
+            // Make the Astronaut gray:
+            callback: (self) => {
+                self.objects[0].traverse(obj => {
+                    if (obj instanceof T.Mesh) {
+                        obj.material = new T.MeshStandardMaterial({ color: 0x808080 }); // Gray color
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Create the sphere:
+export class Mirror_Sphere extends GrObject { 
+    constructor(params = {}) {
+    let geometry = new T.SphereGeometry(1,500,500);
+    let mesh = new T.Mesh(geometry, material);
+    mesh.position.set(0, 1, 0);
+    mesh.scale.set(100,100,100);
+    super("Sphere1", mesh);
+    this.mesh = mesh;
+    this.time = 0;
+    }
+    // Animate the sphere: (circular motion)
+    stepWorld(delta) {
+    this.time += delta;
+    this.mesh.visible = false; // So cube camera can take a picture
+    // Cube camera and sphere move together as a unit:
+    cube_camera.position.set(500*Math.sin(this.time / 1000), 1, 500*Math.cos(this.time / 1000));
+    cube_camera.update(world.renderer, world.scene);
+    this.mesh.visible = true;
+    this.mesh.position.set(500*Math.sin(this.time / 1000), 1, 500*Math.cos(this.time / 1000));
+    }
+}
+
+// Satellite Class
+let solarpanel_texture = new T.TextureLoader().load("./textures/solarpanel.jpg");
+export class Satellite extends GrObject {
+    constructor(params={}) {
+        let group = new T.Group();
+        let geometry = new T.CylinderGeometry(1,1,5,100,100,false,0,2*Math.PI);
+        let material = new T.MeshStandardMaterial({color:0x808080});
+        let mesh = new T.Mesh(geometry, material);
+        let geometry1 = new T.CylinderGeometry(0.1,0.1,3,100,100,false,0,2*Math.PI);
+        let material1 = new T.MeshStandardMaterial({color:0x808080});
+        let mesh1 = new T.Mesh(geometry1, material1);
+
+        const positions = new Float32Array( [
+            // top
+            0,0,0, 
+            .01,0,.05,
+            .01,0,0,
+
+            0,0,0,
+            0,0,.05,
+            .01,0,.05,
+            // bottom
+            0,0,0, 
+            .01,0,0,
+            .01,0,.05,
+
+            0,0,0,
+            .01,0,.05,
+            0,0,.05
+        ]);
+
+        const uvs = new Float32Array([
+            // top
+            64/1860,489/4032,
+            1796/1860, 1729/4032,
+            1796/1860, 522/4032,
+
+            64/1860,489/4032,
+            64/1860, 1716/4032,
+            1796/1860, 1729/4032,
+
+            // bottom
+            64/1860, 1716/4032,
+            1796/1860, 1729/4032,
+            1796/1860, 2842/4032,
+
+            64/1860, 1716/4032,
+            1796/1860, 2842/4032,
+            64/1860, 2842/4032
+        ]);
+
+        let geometry2 = new T.BufferGeometry();
+        geometry2.setAttribute("position",new T.BufferAttribute(positions,3));
+        geometry2.setAttribute("uv",new T.BufferAttribute(uvs,2));
+        let material2 = new T.MeshStandardMaterial({color:"white", map:solarpanel_texture});
+        let mesh2 = new T.Mesh(geometry2,material2);
+        mesh2.position.set(0,0,0);
+        mesh2.translateZ(0);
+
+        let geometry3 = new T.BufferGeometry();
+        geometry3.setAttribute("position",new T.BufferAttribute(positions,3));
+        geometry3.setAttribute("uv",new T.BufferAttribute(uvs,2));
+        let material3 = new T.MeshStandardMaterial({color:"white", map:solarpanel_texture});
+        let mesh3 = new T.Mesh(geometry3,material3);
+        mesh3.position.set(0,0,0);
+        mesh3.translateZ(-0.05);
+
+        mesh1.rotateX(Math.PI/2);
+        mesh.position.set(0,0,0);
+        mesh1.position.set(0,0,0);
+        mesh.scale.set(.01,.01,.01);
+        mesh1.scale.set(.01,.01,.01);
+        group.add(mesh,mesh1,mesh2,mesh3);
+        group.translateX(1.2);
+        super("Cylinder", group);
+        this.mesh=mesh;
+    }
+}
+
 // Spaceship Class
 export class Spaceship extends Loaders.ObjGrObject {
     // Constructor
@@ -58,7 +200,15 @@ export class Spaceship extends Loaders.ObjGrObject {
             obj:"./textures/spaceship.obj",
             norm:2,
             name: "Spaceship",
-        })
+            // Make the spaceship red.
+            callback: (self) => {
+                self.objects[0].traverse(obj => {
+                    if (obj instanceof T.Mesh) {
+                        obj.material = new T.MeshStandardMaterial({ color: 0xff0000 }); // Red color
+                    }
+                });
+            }
+        });
 
         // Do the fancy rideable stuff to get a third person camera:
         this.ridePoint = new T.Object3D();
@@ -70,7 +220,7 @@ export class Spaceship extends Loaders.ObjGrObject {
         this.objects[0].scale.set(0.01,0.01,0.01);
         this.mesh=this.objects[0];
         this.time=0;
-        
+
         // Event handlers to control the spaceship:
         document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
@@ -92,16 +242,16 @@ export class Spaceship extends Loaders.ObjGrObject {
             case 69: // E key
                 rollRight = true;
                 break;
-            case 38: // uparrow key
+            case 104: // 8 numberpad key
                 turnUp = true;
                 break;
-            case 40: // downarrow key
+            case 101: // 5 numberpad key
                 turnDown = true;
                 break;
-            case 39: // rightarrow key
+            case 102: // 6 numberpad key
                 speedUp = true;
                 break;
-            case 37: // leftarrow key
+            case 100: // 4 numberpad key
                 speedDown = true;
                 break;
             }
@@ -128,16 +278,16 @@ export class Spaceship extends Loaders.ObjGrObject {
             case 69: // E key
                 rollRight = false;
                 break;
-            case 38: // uparrow key
+            case 104: // 8 numberpad key
                 turnUp = false;
                 break;
-            case 40: // downarrow key
+            case 101: // 5 numberpad key
                 turnDown = false;
                 break;
-            case 39: // rightarrow key
+            case 102: // 6 numberpad key
                 speedUp = false;
                 break;
-            case 37: // leftarrow key
+            case 100: // 4 numberpad key
                 speedDown = false;
                 break;
             }
@@ -164,22 +314,22 @@ export class Spaceship extends Loaders.ObjGrObject {
         }
         // This stuff seems to complicate things a lot use at your own risk:
         if(rollLeft) {
-            //this.mesh.rotateZ(-delta/2500);
+            this.mesh.rotateZ(-delta/2500);
         }
         if(rollRight) {
-            //this.mesh.rotateZ(delta/2500);
+            this.mesh.rotateZ(delta/2500);
         }
         if(turnUp) {
-            //this.mesh.rotateX(delta/2500);
+            this.mesh.rotateX(-delta/2500);
         }
         if(turnDown) {
-            //this.mesh.rotateX(-delta/2500);
+            this.mesh.rotateX(delta/2500);
         }
         if(speedUp) {
-            speed += 0.01;
+            speed += 0.05;
         }
         if(speedDown) {
-            speed -= 0.01;
+            speed -= 0.05;
         }
     }
 }
@@ -196,32 +346,43 @@ let saturn_texture = new T.TextureLoader().load("./textures/saturn.jpg");
 let uranus_texture = new T.TextureLoader().load("./textures/uranus.jpg");
 let neptune_texture = new T.TextureLoader().load("./textures/neptune.jpg");
 let pluto_texture = new T.TextureLoader().load("./textures/pluto.jpg");
-let star_texture = new T.TextureLoader().load("./textures/stars.jpg");
+//let star_texture = new T.TextureLoader().load("./textures/stars.jpg");
 
 // Geometries/materials/meshes:
 let sphere_geometry = new T.SphereGeometry(1,500,500);
+// Rings for saturn:
+let ring_geometry = new T.RingGeometry(1.2,2,100,100,0,2*Math.PI);
+let ring_material = new T.MeshStandardMaterial({color:"#ffe1ab",side:T.DoubleSide});
+let ring_mesh = new T.Mesh(ring_geometry,ring_material);
+ring_mesh.rotateX(Math.PI/2);
+ring_mesh.rotateY(Math.PI/32);
+// Cube camera to get nice lit sun texture on outside:
+let target = new T.WebGLCubeRenderTarget(256);
+let cube_camera = new T.CubeCamera(0.1,10000,target);
+let material = new T.MeshStandardMaterial({ envMap: target.texture, metalness:0.9,roughness:0.1});
 
-let sun_material = new T.MeshStandardMaterial({color:"white", map:sun_texture, bumpMap:sun_texture, bumpScale:10});
+// Materials/meshes:
+let sun_material = new T.MeshStandardMaterial({color:"white", map:sun_texture, envMap:target.texture, metalness:0.5, roughness:0.2, bumpMap:sun_texture, bumpScale:10, side:T.DoubleSide});
 let sun_mesh = new T.Mesh(sphere_geometry,sun_material);
-let mercury_material = new T.MeshStandardMaterial({color:"white", map:mercury_texture, bumpMap:mercury_texture, bumpScale:10});
+let mercury_material = new T.MeshStandardMaterial({color:"white", map:mercury_texture, bumpMap:mercury_texture, bumpScale:10, side:T.DoubleSide});
 let mercury_mesh = new T.Mesh(sphere_geometry,mercury_material);
-let venus_material = new T.MeshStandardMaterial({color:"white", map:venus_texture, bumpMap:venus_texture, bumpScale:10});
+let venus_material = new T.MeshStandardMaterial({color:"white", map:venus_texture, bumpMap:venus_texture, bumpScale:10, side:T.DoubleSide});
 let venus_mesh = new T.Mesh(sphere_geometry,venus_material);
-let earth_material = new T.MeshStandardMaterial({color:"white", map:earth_texture, bumpMap:earth_texture, bumpScale:10});
+let earth_material = new T.MeshStandardMaterial({color:"white", map:earth_texture, bumpMap:earth_texture, bumpScale:10, side:T.DoubleSide});
 let earth_mesh = new T.Mesh(sphere_geometry,earth_material);
-let moon_material = new T.MeshStandardMaterial({color:"white", map:moon_texture, bumpMap:moon_texture, bumpScale:10});
+let moon_material = new T.MeshStandardMaterial({color:"white", map:moon_texture, bumpMap:moon_texture, bumpScale:10, side:T.DoubleSide});
 let moon_mesh = new T.Mesh(sphere_geometry,moon_material);
-let mars_material = new T.MeshStandardMaterial({color:"white", map:mars_texture, bumpMap:mars_texture, bumpScale:10});
+let mars_material = new T.MeshStandardMaterial({color:"white", map:mars_texture, bumpMap:mars_texture, bumpScale:10, side:T.DoubleSide});
 let mars_mesh = new T.Mesh(sphere_geometry,mars_material);
-let jupiter_material = new T.MeshStandardMaterial({color:"white", map:jupiter_texture, bumpMap:jupiter_texture, bumpScale:10});
+let jupiter_material = new T.MeshStandardMaterial({color:"white", map:jupiter_texture, bumpMap:jupiter_texture, bumpScale:10, side:T.DoubleSide});
 let jupiter_mesh = new T.Mesh(sphere_geometry,jupiter_material);
-let saturn_material = new T.MeshStandardMaterial({color:"white", map:saturn_texture, bumpMap:saturn_texture, bumpScale:10});
+let saturn_material = new T.MeshStandardMaterial({color:"white", map:saturn_texture, bumpMap:saturn_texture, bumpScale:10, side:T.DoubleSide});
 let saturn_mesh = new T.Mesh(sphere_geometry,saturn_material);
-let uranus_material = new T.MeshStandardMaterial({color:"white", map:uranus_texture, bumpMap:uranus_texture, bumpScale:10});
+let uranus_material = new T.MeshStandardMaterial({color:"white", map:uranus_texture, bumpMap:uranus_texture, bumpScale:10, side:T.DoubleSide});
 let uranus_mesh = new T.Mesh(sphere_geometry,uranus_material);
-let neptune_material = new T.MeshStandardMaterial({color:"white", map:neptune_texture, bumpMap:neptune_texture, bumpScale:10});
+let neptune_material = new T.MeshStandardMaterial({color:"white", map:neptune_texture, bumpMap:neptune_texture, bumpScale:10, side:T.DoubleSide});
 let neptune_mesh = new T.Mesh(sphere_geometry,neptune_material);
-let pluto_material = new T.MeshStandardMaterial({color:"white", map:pluto_texture, bumpMap:pluto_texture, bumpScale:10});
+let pluto_material = new T.MeshStandardMaterial({color:"white", map:pluto_texture, bumpMap:pluto_texture, bumpScale:10, side:T.DoubleSide});
 let pluto_mesh = new T.Mesh(sphere_geometry,pluto_material);
 
 // Note: Planet diameters are scaled down by 1,000, but they are all to scale.
@@ -229,6 +390,9 @@ let pluto_mesh = new T.Mesh(sphere_geometry,pluto_material);
 // The Earth is 7938 miles in diameter, so I put a sphere of size 7.938.
 // Note: Planet distances from sun are scaled down by 500,000.
 // So, Earth is 93 million miles away, so I put 186 as the radius.
+// Time is scaled as such: a year on Earth is 365.26 days, so we scale it as 36,526 in javascript.
+// As another example, a year on Venus is 224.70 days, so we scale it as 22,470 in javascript.
+// Time is scaled as such: a day on earth is 23.93 hours, so we scale it as 2,393 in javascript.
 
 // Sun_Sphere Class
 export class Sun_Sphere extends GrObject {
@@ -241,7 +405,7 @@ export class Sun_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/50000);
+        this.mesh.rotateY(delta/64800);
         //this.mesh.position.set(10*Math.sin(this.time / 1000), 0, 10*Math.cos(this.time / 1000));
     }
 }
@@ -257,8 +421,8 @@ export class Mercury_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+70)*Math.sin(this.time / 51000), 0, (865+70)*Math.cos(this.time / 51000));
+        this.mesh.rotateY(delta/140760);
+        this.mesh.position.set((865+70)*Math.sin(this.time / 8797), 0, (865+70)*Math.cos(this.time / 8797));
     }
 }
 
@@ -273,8 +437,8 @@ export class Venus_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+134)*Math.sin(this.time / 50000), 0, (865+134)*Math.cos(this.time / 50000));
+        this.mesh.rotateY(delta/583200);
+        this.mesh.position.set((865+134)*Math.sin(this.time / 22470), 0, (865+134)*Math.cos(this.time / 22470));
     }
 }
 
@@ -289,8 +453,8 @@ export class Earth_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+186)*Math.sin(this.time / 50500), 0, (865+186)*Math.cos(this.time / 50500));
+        this.mesh.rotateY(delta/2393);
+        this.mesh.position.set((865+186)*Math.sin(this.time / 36526), 0, (865+186)*Math.cos(this.time / 36526));
     }
 }
 
@@ -298,15 +462,15 @@ export class Earth_Sphere extends GrObject {
 export class Moon_Sphere extends GrObject {
     constructor(params={}) {
         moon_mesh.position.set(0,0,0);
-        moon_mesh.scale.set(2.159,2.159,2.159);
+        moon_mesh.scale.set(0.272,0.272,0.272);
         super("Moon_Sphere",moon_mesh);
         this.mesh=moon_mesh;
         this.time=0;
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+200)*Math.sin(this.time / 50000), 0, (865+200)*Math.cos(this.time / 50000));
+        this.mesh.rotateY(delta/65520);
+        //this.mesh.position.set((1000)*Math.sin(this.time / 50000), 0, (1000)*Math.cos(this.time / 50000));
     }
 }
 
@@ -321,8 +485,8 @@ export class Mars_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+284)*Math.sin(this.time / 51500), 0, (865+284)*Math.cos(this.time / 51500));
+        this.mesh.rotateY(delta/2462);
+        this.mesh.position.set((865+284)*Math.sin(this.time / 68698), 0, (865+284)*Math.cos(this.time / 68698));
     }
 }
 
@@ -337,8 +501,8 @@ export class Jupiter_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+968)*Math.sin(this.time / 50000), 0, (865+968)*Math.cos(this.time / 50000));
+        this.mesh.rotateY(delta/984);
+        this.mesh.position.set((865+968)*Math.sin(this.time / 432890), 0, (865+968)*Math.cos(this.time / 432890));
     }
 }
 
@@ -353,8 +517,8 @@ export class Saturn_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+1778)*Math.sin(this.time / 52000), 0, (865+1778)*Math.cos(this.time / 52000));
+        this.mesh.rotateY(delta/1023);
+        this.mesh.position.set((865+1778)*Math.sin(this.time / 1075290), 0, (865+1778)*Math.cos(this.time / 1075290));
     }
 }
 
@@ -369,8 +533,8 @@ export class Uranus_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+3580)*Math.sin(this.time / 23000), 0, (865+3580)*Math.cos(this.time / 23000));
+        this.mesh.rotateY(delta/2800);
+        this.mesh.position.set((865+3580)*Math.sin(this.time / 3066365), 0, (865+3580)*Math.cos(this.time / 3066365));
     }
 }
 
@@ -385,8 +549,8 @@ export class Neptune_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+5600)*Math.sin(this.time / 20000), 0, (865+5600)*Math.cos(this.time / 20000));
+        this.mesh.rotateY(delta/2000);
+        this.mesh.position.set((865+5600)*Math.sin(this.time / 6014835), 0, (865+5600)*Math.cos(this.time / 6014835));
     }
 }
 
@@ -401,8 +565,8 @@ export class Pluto_Sphere extends GrObject {
     }
     stepWorld(delta) {
         this.time += delta;
-        this.mesh.rotateY(delta/5000);
-        this.mesh.position.set((865+7400)*Math.sin(this.time / 20000), 0, (865+7400)*Math.cos(this.time / 20000));
+        this.mesh.rotateY(delta/15336);
+        this.mesh.position.set((865+7400)*Math.sin(this.time / 9049810), 0, (865+7400)*Math.cos(this.time / 9049810));
     }
 }
 
@@ -413,8 +577,15 @@ const textureCube = loader.load(
 );
 
 // Create some better light:
-const ambientLight = new T.AmbientLight("white",2);
+const ambientLight = new T.AmbientLight("white",1);
 world.scene.add(ambientLight);
+
+// The sun should be emitting light:
+const sunLight = new T.PointLight(0xffffff,10,100000,0.1);
+sunLight.position.set(0,0,0);
+world.scene.add(sunLight);
+
+// Cool Stars:
 world.scene.background = textureCube;
 
 // Create planet classes:
@@ -430,13 +601,17 @@ let uranus_sphere = new Uranus_Sphere();
 let neptune_sphere = new Neptune_Sphere();
 let pluto_sphere = new Pluto_Sphere();
 let spaceship = new Spaceship();
+let alien1 = new Alien();
+let astronaut1 = new Astronaut();
+let mirrorsphere = new Mirror_Sphere();
+let satellite = new Satellite();
 
 // Add planets to the world (with scaling):
 world.add(sun_sphere);
 world.add(mercury_sphere);
 world.add(venus_sphere);
 world.add(earth_sphere);
-world.add(moon_sphere);
+//world.add(moon_sphere);
 world.add(mars_sphere);
 world.add(jupiter_sphere);
 world.add(saturn_sphere);
@@ -444,6 +619,20 @@ world.add(uranus_sphere);
 world.add(neptune_sphere);
 world.add(pluto_sphere);
 world.add(spaceship);
+world.add(mirrorsphere);
+//world.add(satellite);
+
+saturn_sphere.objects[0].add(ring_mesh);
+earth_sphere.objects[0].add(moon_sphere.objects[0]);
+moon_sphere.objects[0].translateX(2);
+alien1.objects[0].translateY(1.09);
+alien1.objects[0].rotateX(3*Math.PI/4);
+mars_sphere.objects[0].add(alien1.objects[0]);
+astronaut1.objects[0].rotateX(Math.PI/4);
+astronaut1.objects[0].translateZ(1.1);
+earth_sphere.objects[0].add(astronaut1.objects[0]);
+earth_sphere.objects[0].add(satellite.objects[0]);
+
 
 function highlight(obName) {
     const toHighlight = world.objects.find(ob => ob.name === obName);
@@ -458,7 +647,7 @@ highlight("Sun_Sphere");
 highlight("Mercury_Sphere");
 highlight("Venus_Sphere");
 highlight("Earth_Sphere");
-highlight("Moon_Sphere");
+//highlight("Moon_Sphere");
 highlight("Mars_Sphere");
 highlight("Jupiter_Sphere");
 highlight("Saturn_Sphere");
